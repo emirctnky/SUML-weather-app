@@ -52,5 +52,5 @@ model = Pipeline(steps=[
 
 model.fit(X_train, y_train)
 
-with open('oldModel/knn_model.pkl', 'wb') as file:
+with open('knn_model.pkl', 'wb') as file:
     pickle.dump(model, file)
