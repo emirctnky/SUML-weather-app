@@ -1,8 +1,16 @@
+import os
 import streamlit as st
 import pandas as pd
 import pickle
 
-with open('knn_model.pkl', 'rb') as file:
+
+# Get the directory of the current script
+script_dir = os.path.dirname(os.path.realpath(__file__))
+
+# Construct the absolute path to the model file
+model_path = os.path.join(script_dir, 'oldModel/knn_model.pkl')
+
+with open(model_path, 'rb') as file:
     model = pickle.load(file)
 
 
