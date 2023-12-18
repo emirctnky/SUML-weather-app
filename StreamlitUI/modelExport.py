@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.model_selection import train_test_split
@@ -8,7 +9,14 @@ from sklearn.pipeline import Pipeline
 import pickle
 
 
-dataset = pd.read_csv('./warsaw.csv')
+# Get the directory of the current script
+script_dir = os.path.dirname(os.path.realpath(__file__))
+
+# Construct the absolute path to the model file
+dataFilePath = os.path.join(script_dir, 'warsaw.csv')
+
+# 1. Load the data.
+dataset = pd.read_csv(dataFilePath, sep=",")
 
 
 dataset['DATE'] = pd.to_datetime(dataset['DATE'])
