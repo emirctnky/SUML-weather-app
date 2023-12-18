@@ -8,7 +8,7 @@ import pickle
 script_dir = os.path.dirname(os.path.realpath(__file__))
 
 # Construct the absolute path to the model file
-model_path = os.path.join(script_dir, 'oldModel/knn_model.pkl')
+model_path = os.path.join(script_dir, 'knn_model.pkl')
 
 with open(model_path, 'rb') as file:
     model = pickle.load(file)
