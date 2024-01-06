@@ -31,10 +31,9 @@ dataset_preprocessed['Day'] = dataset_preprocessed['DATE'].dt.day
 
 dataset_preprocessed = dataset_preprocessed.drop(['DATE'], axis=1)
 
-# 3. Select your features and target variable.
-# Here, you need to replace 'YourFeatures' and 'YourTarget' with the names of your features and target variable.
-# Select your features and target variable.
-features = ['LATITUDE', 'LONGITUDE', 'ELEVATION', 'Year', 'Month', 'Day', 'PRCP', 'SNWD']
+# 3. Select the features and target variable.
+features = ['LATITUDE', 'LONGITUDE', 'ELEVATION',
+            'Year', 'Month', 'Day', 'PRCP', 'SNWD']
 target = 'TAVG'
 
 X = dataset_preprocessed[features]
@@ -42,46 +41,8 @@ y = dataset_preprocessed[target]
 
 
 # 4. Split the data (test size = 0.1; random state = 101).
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=101)
-
-# 5. Create and train the kNN model.
-model = KNeighborsRegressor(n_neighbors=3)  # Number of nearest neighbours considered
-model.fit(X_train, y_train)
-
-# 6. Make predictions.
-y_pred = model.predict(X_test)
-
-# 7. Print the classification report.
-# print(classification_report(y_test, y_pred)) # can't use classification for regression
-
-# min_temp = dataset_preprocessed['TAVG'].min()
-# max_temp = dataset_preprocessed['TAVG'].max()
-#
-# print('Min Temperature:', min_temp)
-# print('Max Temperature:', max_temp)
-
-# 7. Print the Mean Squared Error.
-# MSE and RMSE are kinda the same, RMSE is just MSE^1/2(square root). It means that the model was on average 3.67 units away
-# from the "target"(correct prediction). RMSE squares errors before calculations meaning that larger errors have bigger
-# impact on the score
-mse = mean_squared_error(y_test, y_pred)
-print('Mean Squared Error:', mse)
-
-# RMSE
-rmse = sqrt(mean_squared_error(y_test, y_pred))
-print('Root Mean Squared Error:', rmse)
-
-# This is like RMSE but this calculates the ABSOLUTE error, without considering how large each error was and assigning
-# weights based on that
-mae = mean_absolute_error(y_test, y_pred)
-print('Mean Absolute Error:', mae)
-
-
-# A measure of how much the underlying model explains the input variables, not sure how to understand it yet
-r2 = r2_score(y_test, y_pred)
-print('R^2 Score:', r2)
-
-
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.1, random_state=101)
 
 
 # looking for the best "k" for the model
@@ -110,12 +71,3 @@ plt.show()
 # Find the K value with the lowest MSE
 best_k = mse_values.index(min(mse_values)) + 1
 print(f"Minimum MSE: {min(mse_values)} at K = {best_k}")
-
-
-
-
-
-
-
-
-

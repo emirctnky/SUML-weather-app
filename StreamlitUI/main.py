@@ -31,11 +31,14 @@ def predict_temperature(year, month, day, prcp, snwd):
 
 st.title("Temperature Prediction App")
 
-year = st.number_input("Enter Year", min_value=1960, max_value=2025, value=2022)
+year = st.number_input("Enter Year", min_value=1960,
+                       max_value=2025, value=2022)
 month = st.number_input("Enter Month", min_value=1, max_value=12, value=1)
 day = st.number_input("Enter Day", min_value=1, max_value=31, value=1)
-prcp = st.number_input("Enter Precipitation (PRCP)", min_value=0.0, max_value=100.0, value=0.0)
-snwd = st.number_input("Enter Snow Depth (SNWD)", min_value=0.0, max_value=100.0, value=0.0)
+prcp = st.number_input("Enter Precipitation (PRCP)",
+                       min_value=0.0, max_value=100.0, value=0.0)
+snwd = st.number_input("Enter Snow Depth (SNWD)",
+                       min_value=0.0, max_value=100.0, value=0.0)
 
 if st.button("Predict Temperature"):
     prediction = predict_temperature(year, month, day, prcp, snwd)
