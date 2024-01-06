@@ -1,4 +1,5 @@
 import os
+import pickle
 import pandas as pd
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.model_selection import train_test_split
@@ -6,7 +7,7 @@ from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
-import pickle
+from pylint.lint import Run
 
 
 # Get the directory of the current script
@@ -15,7 +16,7 @@ script_dir = os.path.dirname(os.path.realpath(__file__))
 # Construct the absolute path to the model file
 dataFilePath = os.path.join(script_dir, 'warsaw.csv')
 
-# 1. Load the data.
+# 1. Load the data
 dataset = pd.read_csv(dataFilePath, sep=",")
 
 
@@ -34,10 +35,10 @@ y = dataset[target]
 # Identify non-numeric columns
 non_numeric_cols = X.select_dtypes(exclude=['float64', 'int64']).columns
 
-# Exclude non-numeric columns from imputation
+# Exclude non-numeric columns
 numeric_features = list(set(features) - set(non_numeric_cols))
 
-# Define transformers for numeric and non-numeric features
+# Define transformers for features
 numeric_transformer = Pipeline(steps=[
     ('imputer', SimpleImputer(strategy='mean')),
     ('scaler', StandardScaler())
@@ -62,3 +63,9 @@ model.fit(X_train, y_train)
 
 with open('knn_model.pkl', 'wb') as file:
     pickle.dump(model, file)
+
+
+scriptName = "modelExport.py"
+# Pylint results
+results = Run([scriptName])
+print(results.linter.stats.global_note)

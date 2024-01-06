@@ -1,7 +1,8 @@
 import os
+import pickle
 import streamlit as st
 import pandas as pd
-import pickle
+from pylint.lint import Run
 
 
 # Get the directory of the current script
@@ -14,19 +15,33 @@ with open(model_path, 'rb') as file:
     model = pickle.load(file)
 
 
-def predict_temperature(year, month, day, prcp, snwd):
-    year, month, day = float(year), float(month), float(day)
+def predict_temperature(passed_year, passed_month, passed_day, passed_prcp, passed_snwd):
+    """
+        This function predicts the temperature based on the given parameters.
+        Parameters:
+        passed_year (float): The year
+        passed_month (float): The month
+        passed_day (float): The day
+        passed_prcp (float): The precipitation
+        passed_snwd (float): The snow depth
 
-    prcp = float(prcp) if prcp != "" else None
-    snwd = float(snwd) if snwd != "" else None
+        Returns:
+        float: The predicted average temperature for the provided day
+        """
+    passed_year, passed_month, passed_day = float(passed_year), float(passed_month), float(passed_day)
+
+    passed_prcp = float(passed_prcp) if passed_prcp != "" else None
+    passed_snwd = float(passed_snwd) if passed_snwd != "" else None
 
     latitude, longitude = 52.166, 20.967
 
-    input_data = pd.DataFrame([[latitude, longitude, 110.3, year, month, day, prcp, snwd]],
-                              columns=['LATITUDE', 'LONGITUDE', 'ELEVATION', 'Year', 'Month', 'Day', 'PRCP', 'SNWD'])
+    input_data = pd.DataFrame(
+        [[latitude, longitude, 110.3, passed_year, passed_month, passed_day, passed_prcp, passed_snwd]],
+        columns=['LATITUDE', 'LONGITUDE', 'ELEVATION', 'Year', 'Month', 'Day', 'PRCP', 'SNWD']
+    )
 
-    prediction = model.predict(input_data)
-    return prediction[0]
+    predicted_temp = model.predict(input_data)
+    return predicted_temp[0]
 
 
 st.title("Temperature Prediction App")
@@ -53,3 +68,9 @@ if st.button("Predict Temperature"):
         st.balloons()
     else:
         st.info("The temperature is just right!")
+
+
+scriptName = "main.py"
+# Pylint results
+results = Run([scriptName])
+print(results.linter.stats.global_note)
