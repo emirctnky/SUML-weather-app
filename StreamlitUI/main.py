@@ -9,7 +9,7 @@ from pylint.lint import Run
 script_dir = os.path.dirname(os.path.realpath(__file__))
 
 # Construct the absolute path to the model file
-model_path = os.path.join(script_dir, 'knn_model.pkl')
+model_path = os.path.join(script_dir, 'rf_model.pkl')
 
 with open(model_path, 'rb') as file:
     model = pickle.load(file)
@@ -28,7 +28,8 @@ def predict_temperature(passed_year, passed_month, passed_day, passed_prcp, pass
         Returns:
         float: The predicted average temperature for the provided day
         """
-    passed_year, passed_month, passed_day = float(passed_year), float(passed_month), float(passed_day)
+    passed_year, passed_month, passed_day = float(
+        passed_year), float(passed_month), float(passed_day)
 
     passed_prcp = float(passed_prcp) if passed_prcp != "" else None
     passed_snwd = float(passed_snwd) if passed_snwd != "" else None
@@ -36,8 +37,10 @@ def predict_temperature(passed_year, passed_month, passed_day, passed_prcp, pass
     latitude, longitude = 52.166, 20.967
 
     input_data = pd.DataFrame(
-        [[latitude, longitude, 110.3, passed_year, passed_month, passed_day, passed_prcp, passed_snwd]],
-        columns=['LATITUDE', 'LONGITUDE', 'ELEVATION', 'Year', 'Month', 'Day', 'PRCP', 'SNWD']
+        [[latitude, longitude, 110.3, passed_year, passed_month,
+            passed_day, passed_prcp, passed_snwd]],
+        columns=['LATITUDE', 'LONGITUDE', 'ELEVATION',
+                 'Year', 'Month', 'Day', 'PRCP', 'SNWD']
     )
 
     predicted_temp = model.predict(input_data)

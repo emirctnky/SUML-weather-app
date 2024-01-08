@@ -1,12 +1,12 @@
 import os
 import pickle
 import pandas as pd
-from sklearn.neighbors import KNeighborsRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
+from sklearn.ensemble import RandomForestRegressor
 from pylint.lint import Run
 
 
@@ -51,17 +51,18 @@ preprocessor = ColumnTransformer(
     ])
 
 # Split the data
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=101)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.1, random_state=101)
 
-# Create and train the kNN model with preprocessing pipeline
+# Create and train the RandomForest model with preprocessing pipeline
 model = Pipeline(steps=[
     ('preprocessor', preprocessor),
-    ('regressor', KNeighborsRegressor(n_neighbors=4))
+    ('regressor', RandomForestRegressor(n_estimators=100, random_state=101))
 ])
 
 model.fit(X_train, y_train)
 
-with open('knn_model.pkl', 'wb') as file:
+with open('rf_model.pkl', 'wb') as file:
     pickle.dump(model, file)
 
 
