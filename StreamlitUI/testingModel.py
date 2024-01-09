@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 from matplotlib import pyplot as plt
-from sklearn.neighbors import KNeighborsRegressor
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 from pylint.lint import Run
@@ -19,7 +19,7 @@ dataframe = pd.read_csv(dataFilePath, sep=",")
 # 2. Fill (or remove) all missing data
 dataset_preprocessed = dataframe.fillna(dataframe.mean(numeric_only=True))
 
-# splitting plain date into columns for the kNN model
+# splitting plain date into columns for the rf model
 dataset_preprocessed['DATE'] = pd.to_datetime(dataset_preprocessed['DATE'])
 dataset_preprocessed['Year'] = dataset_preprocessed['DATE'].dt.year
 dataset_preprocessed['Month'] = dataset_preprocessed['DATE'].dt.month
@@ -47,26 +47,26 @@ X_train, X_test, y_train, y_test = train_test_split(
 mse_values = []
 
 # Get the MSE for K values between 1 and 100
-for k in range(1, 100):
-    knn = KNeighborsRegressor(n_neighbors=k)
-    knn.fit(X_train, y_train)
-    y_pred = knn.predict(X_test)
+for n in range(1, 140):
+    rf = RandomForestRegressor(n_estimators=n, random_state=101)
+    rf.fit(X_train, y_train)
+    y_pred = rf.predict(X_test)
     mse = mean_squared_error(y_test, y_pred)
     mse_values.append(mse)
 
 # Plot the MSE values to choose the best K
 plt.figure(figsize=(12, 6))
-plt.plot(range(1, 100), mse_values, color='red', linestyle='dashed', marker='o',
+plt.plot(range(1, 140), mse_values, color='red', linestyle='dashed', marker='o',
          markerfacecolor='blue', markersize=10)
-plt.title('MSE for Different K Values')
-plt.xlabel('K Value')
+plt.title('MSE for Different n_estimator Values')
+plt.xlabel('n_estimator Value')
 plt.ylabel('Mean Squared Error')
 
 plt.show()
 
-# Find the K value with the lowest MSE
-best_k = mse_values.index(min(mse_values)) + 1
-print(f"Minimum MSE: {min(mse_values)} at K = {best_k}")
+# Find the n_estimators value with the lowest MSE
+best_n_estimator = mse_values.index(min(mse_values)) + 1
+print(f"Minimum MSE: {min(mse_values)} at n_estimator = {best_n_estimator}")
 
 
 scriptName = "testingModel.py"

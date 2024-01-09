@@ -57,7 +57,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 # Create and train the RandomForest model with preprocessing pipeline
 model = Pipeline(steps=[
     ('preprocessor', preprocessor),
-    ('regressor', RandomForestRegressor(n_estimators=100, random_state=101))
+    ('regressor', RandomForestRegressor(n_estimators=138, random_state=101))
 ])
 
 model.fit(X_train, y_train)
