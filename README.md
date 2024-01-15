@@ -28,7 +28,7 @@ Link in the future
 🛠️ Python
 
 ## ⚙️ Model
-🤖 K-Nearest Neighbors (kNN) Regressor trained on weather data to predict the average temperature.
+🤖 Random Forest Regressor trained on weather data to predict the average temperature.
 
 ## [Dependencies](#dependencies)
 * Streamlit
