@@ -8,8 +8,7 @@
 Weather App is a web application built to predict the average temperature on a specific date. 
 
 ## Try the demo!
-Link in the future
-
+[Weather App](https://suml-weather-app.streamlit.app/)
 #### User inputs
 * Year
 * Month
